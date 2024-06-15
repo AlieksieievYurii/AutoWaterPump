@@ -19,8 +19,19 @@ public:
     digitalWrite(_pin, _state);
   }
 
+  void on(void) {
+    digitalWrite(_pin, HIGH);
+  }
+
+  void off(void) {
+    digitalWrite(_pin, LOW);
+  }
+
   void set(uint8_t mode) {
+    if (mode == _mode)
+      return;
     _timestamp = millis();
+    _mode = mode;
     if (mode == PULSE_STOP) {
       _state = false;
       _delay = 0;
@@ -33,6 +44,7 @@ public:
 
 private:
   uint8_t _pin = 0;
+  uint8_t _mode = 0;
   bool _state = false;
   uint32_t _delay = 0;
   uint32_t _timestamp = 0;
