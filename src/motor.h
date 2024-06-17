@@ -21,6 +21,10 @@ public:
     }
   }
 
+  void stop() {
+    _time_to_finish = 0;
+  }
+
   void run(uint32_t volume_in_ml) {
     _time_to_finish = millis() + (((float)volume_in_ml / VOLUME_IN_ML_PER_SECOND) * 1000);
   }

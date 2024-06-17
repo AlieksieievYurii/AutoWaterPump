@@ -38,7 +38,7 @@
 #define KEY_SSID "ssid"
 #define KEY_PASSWORD "pass"
 
-#define IS_TANK_EMPTY trigger.get_state() == false
+#define IS_TANK_EMPTY trigger.get_state() == true
 
 #define DEBUG
 
@@ -264,7 +264,7 @@ void setup() {
   pinMode(BUZZER, OUTPUT);
   pinMode(STATUS_LED, OUTPUT);
   pinMode(BUTTON, INPUT_PULLUP);
-  pinMode(TRIGGER, INPUT_PULLUP);
+  pinMode(TRIGGER, INPUT);
   pinMode(SENSOR_L, INPUT);
   pinMode(SENSOR_R, INPUT);
 
@@ -356,37 +356,41 @@ void setup() {
 #endif
 }
 
+void handle_schedule(void) {
+  getLocalTime(&timeinfo);
+  if ((right_days & (1 << timeinfo.tm_wday)) && right_hours == timeinfo.tm_hour && right_minutes == timeinfo.tm_min) {
+    if (!right_pump_handled) {
+      motor_r.run(right_volume);
+      right_pump_handled = true;
+    }
+  } else {
+    right_pump_handled = false;
+  }
+
+  if ((left_days & (1 << timeinfo.tm_wday)) && left_hours == timeinfo.tm_hour && left_minutes == timeinfo.tm_min) {
+    if (!left_pump_handled) {
+      motor_l.run(left_volume);
+      left_pump_handled = true;
+    }
+  } else {
+    left_pump_handled = false;
+  }
+}
+
 void loop() {
   if (!pairing_mode) {
-    getLocalTime(&timeinfo);
-
     if (IS_TANK_EMPTY) {
       led.set(PULSE_1000MS);
       buzzer.set(PULSE_1000MS);
+      motor_r.stop();
+      motor_l.stop();
     } else {
       led.set(PULSE_STOP);
       buzzer.set(PULSE_STOP);
-    }
-
-    if (!IS_TANK_EMPTY && (right_days & (1 << timeinfo.tm_wday)) && right_hours == timeinfo.tm_hour && right_minutes == timeinfo.tm_min) {
-      if (!right_pump_handled) {
-        motor_r.run(right_volume);
-        right_pump_handled = true;
-      }
-    } else {
-      right_pump_handled = false;
-    }
-
-    if (!IS_TANK_EMPTY && (left_days & (1 << timeinfo.tm_wday)) && left_hours == timeinfo.tm_hour && left_minutes == timeinfo.tm_min) {
-      if (!left_pump_handled) {
-        motor_l.run(left_volume);
-        left_pump_handled = true;
-      }
-    } else {
-      left_pump_handled = false;
+      handle_schedule();
     }
   }
-
+  Serial.println(digitalRead(TRIGGER));
   motor_l.tick();
   motor_r.tick();
   trigger.tick();
