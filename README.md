@@ -7,6 +7,16 @@ There is a button, when the button is pressed when the ECU is on, pairing mode i
 At that point the ECU is available as AP (Access Point). The hotspot is `water-pump`.
 Once you connect to it, you have to go to `http://192.168.4.1:80/wifi` and enter credentials for primary WiFi network.
 
+The ECU has two leds (S - status, P - power) and a buzzer. They are used to inform about the following:
+
+|                S Led & Buzzer             |                                     Meaning                                 |
+|-------------------------------------------|-----------------------------------------------------------------------------|
+| LED ON & Buzzer OFF                       | Wifi is not connected (yet)                                                 |
+| LED blinking 1000ms interval & Buzzer OFF | The ECU is working as Access Point, so you can connect to it and setup WiFi | 
+| LED bliking 100ms interval & Buzzer OFF   | mDNS issue                                                                  |
+| LED ON & Buzzer ON                        | Time is not synchronized yet                                                |
+| LED blinking 1000ms & Buzzer 1000ms       | The tank\bottle is empty                                                    |
+
 __Be aware that the pumps I use, don't block water, so if the nozzles are lower than the bottle, water will spill due to the siphon effect.__
 
 # API
