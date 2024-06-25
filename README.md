@@ -1,17 +1,27 @@
 # AutoWaterPump
 
-This is quite simple DIY auto water pump based on ESP32. It has two pumps (right and left). You can configure them separately.
-Moreover, you can connect two sensors. The whole setup is powered by 220V.
+This simple DIY auto water pump is based on the ESP32 and features two independently configurable pumps (_right_ and _left_).
+Additionally, it supports two sensors and operates on a 220V power supply.
 
-There is a button, when the button is pressed when the ECU is on, pairing mode is eneabled.
-At that point the ECU is available as AP (Access Point). The hotspot is `water-pump`.
-Once you connect to it, you have to go to `http://192.168.4.1:80/wifi` and enter credentials for primary WiFi network.
+The setup includes a button that, when pressed while the ECU is powering on, enables pairing mode.
+In pairing mode, the ECU functions as an Access Point (AP) with the hotspot name `water-pump`.
+Connect to this hotspot and navigate to `http://192.168.4.1:80/wifi` to enter the credentials for the primary Wi-Fi network.
+
+The ECU also has two LEDs (_S_ for status, _P_ for power) and a buzzer, which provide the following notifications:
+
+|                S Led & Buzzer             |                                     Meaning                                 |
+|-------------------------------------------|-----------------------------------------------------------------------------|
+| LED ON & Buzzer OFF                       | Wifi is not connected (yet)                                                 |
+| LED blinking 1000ms interval & Buzzer OFF | The ECU is working as Access Point, so you can connect to it and setup WiFi | 
+| LED blinking 100ms interval & Buzzer OFF   | mDNS issue                                                                  |
+| LED ON & Buzzer ON                        | Time is not synchronized yet                                                |
+| LED blinking 1000ms & Buzzer 1000ms       | The tank\bottle is empty                                                    |
 
 __Be aware that the pumps I use, don't block water, so if the nozzles are lower than the bottle, water will spill due to the siphon effect.__
 
 # API
 
-The ECU(esp32) is using mDNS, so the ECU can be accessible by `water-pump.local`.
+The ECU(esp32) uses mDNS, so the ECU can be accessible by `water-pump.local`.
 
 For example: `http://water-pump.local:80/get`
 
@@ -38,14 +48,14 @@ The core provides several endpoints such as:
     }
     ```
      `left` or `right` has to include:
-    - `ds` - on whic days to trigger the pumps. The bits of the number represents target days, where the first bit is Sunday, the secod bit is Monday etc. For example: number __1__ (in bits: 0000 0001) represents Sanday; number __42__ (0010 1010) represents Monday, Wednesday, Friday. If `ds` is set to zero, the target pump is dissabled.
+    - `ds` - on whic days to trigger the pumps. The bits of the number represents target days, where the first bit is Sunday, the secod bit is Monday etc. For example: number __1__ (in bits: 0000 0001) represents Sanday; number __42__ (0010 1010) represents Monday, Wednesday and Friday. If `ds` is set to zero, the target pump is disabled.
     - `th` - time hour. Points at what time(hour) to trigger the target pump. The value is from 0-23.
     - `tm` - time minutes. Points at what time(minutes) to trigger the target pump. The value is from 0-59.
-    - `v` - the amount of water to be pumped in milliliters.
+    - `v` - the amount of water to be pumped in millilitres.
 
-    `tz` - time zone. Default value is CET-1CEST.
+    `tz` - time zone. The default value is CET-1CEST.
 
-    If the config is correct, you'll get response `OK` with 200 code.
+    If the config is correct, you'll get a response `OK` with 200 code.
 
 - `/get` - returns the current config for both pumps. The response is exactly the same as the body for `/set`, however, the keys `ct` (current time on the ECU) and `tz` (time zone) are added.
 - `/wifi` - is used to set up WIFI credentials. If it's GET method - html form for ssid and password is returned. If it's POST, then there should be two arguments: _ssid_ and _pass_. Once the credentials are set, the ECU must be rebooted. 
