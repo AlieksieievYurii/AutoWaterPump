@@ -40,7 +40,7 @@
 
 #define IS_TANK_EMPTY trigger.get_state() == true
 
-#define DEBUG
+//#define DEBUG
 
 WebServer server(80);
 Preferences preferences;
