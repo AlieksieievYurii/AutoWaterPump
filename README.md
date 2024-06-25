@@ -3,9 +3,8 @@
 This simple DIY auto water pump is based on the ESP32 and features two independently configurable pumps (_right_ and _left_).
 Additionally, it supports two sensors and operates on a 220V power supply.
 
-<p align="center">
-<img src="water-pump.png" width="400">&nbsp;
-</p>
+![title-youtube](https://github.com/AlieksieievYurii/AutoWaterPump/assets/39415360/e7da7755-4717-43c9-881f-a3343f672b99)
+
 
 The setup includes a button that, when pressed while the ECU is powering on, enables pairing mode.
 In pairing mode, the ECU functions as an Access Point (AP) with the hotspot name `water-pump`.
