@@ -6,13 +6,14 @@ Additionally, it supports two sensors and operates on a 220V power supply.
 [![title-youtube](https://github.com/AlieksieievYurii/AutoWaterPump/assets/39415360/e7da7755-4717-43c9-881f-a3343f672b99)](https://www.youtube.com/watch?v=yHVSdm_lqno)
 
 
-The setup includes a button that, when pressed while the ECU is powering on, enables pairing mode.
+The setup includes a button that, when pressed while the ECU is powered on, enables pairing mode.
 In pairing mode, the ECU functions as an Access Point (AP) with the hotspot name `water-pump`.
 Connect to this hotspot and navigate to `http://192.168.4.1:80/wifi` to enter the credentials for the primary Wi-Fi network.
 
-- In the folder `/parts` - you can find all the parst for 3D printing.
-- In the folder `/src` - you can find the source code for ESP32. However you also need to install the additional library
+- In the folder `/parts` - you can find all the parts for 3D printing.
+- In the folder `/src` - you can find the source code for ESP32. However, you also need to install the additional library
 [ArduinoJson](https://arduinojson.org/?utm_source=meta&utm_medium=library.properties).
+- In the file `/schematic.svg` - you can see how all the components are connected.
 
 The ECU also has two LEDs (_S_ for status, _P_ for power) and a buzzer, which provide the following notifications:
 
@@ -20,7 +21,7 @@ The ECU also has two LEDs (_S_ for status, _P_ for power) and a buzzer, which pr
 |-------------------------------------------|-----------------------------------------------------------------------------|
 | LED ON & Buzzer OFF                       | Wifi is not connected (yet)                                                 |
 | LED blinking 1000ms interval & Buzzer OFF | The ECU is working as Access Point, so you can connect to it and setup WiFi | 
-| LED blinking 100ms interval & Buzzer OFF   | mDNS issue                                                                  |
+| LED blinking 100ms interval & Buzzer OFF  | mDNS issue                                                                  |
 | LED ON & Buzzer ON                        | Time is not synchronized yet                                                |
 | LED blinking 1000ms & Buzzer 1000ms       | The tank\bottle is empty                                                    |
 
@@ -55,7 +56,7 @@ The core provides several endpoints such as:
     }
     ```
      `left` or `right` has to include:
-    - `ds` - on whic days to trigger the pumps. The bits of the number represents target days, where the first bit is Sunday, the secod bit is Monday etc. For example: number __1__ (in bits: 0000 0001) represents Sanday; number __42__ (0010 1010) represents Monday, Wednesday and Friday. If `ds` is set to zero, the target pump is disabled.
+    - `ds` - on which days to trigger the pumps. The bits of the number represents target days, where the first bit is Sunday, the second bit is Monday etc. For example: number __1__ (in bits: 0000 0001) represents Sanday; number __42__ (0010 1010) represents Monday, Wednesday and Friday. If `ds` is set to zero, the target pump is disabled.
     - `th` - time hour. Points at what time(hour) to trigger the target pump. The value is from 0-23.
     - `tm` - time minutes. Points at what time(minutes) to trigger the target pump. The value is from 0-59.
     - `v` - the amount of water to be pumped in millilitres.
@@ -85,8 +86,8 @@ The core provides several endpoints such as:
 | Resistor 100                                        |     2    |                                                         |
 | Resistor 10K                                        |     2    |                                                         |
 | Reed switch                                         |     1    |                                                         |
-| SB5100 Diode                                        |     2    | It's used to protect the mosfets. Smaller can be used   |
-| Ceramic Capacitor +-1.5nF                           |     6    | It's used to supress electric noises from motor         |
+| SB5100 Diode                                        |     2    | It's used to protect the MOSFETs. Smaller can be used   |
+| Ceramic Capacitor +-1.5nF                           |     6    | It's used to suppress electric noises from the motor    |
 | PCB Universal pad protoboard 47x72mm                |     1    |                                                         |
 | Rounded Screw M3x6                                  |    10    | For fixing the motors and LM2596                        |
 | Flat Screw M3x10                                    |     8    | For the cover                                           |
