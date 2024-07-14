@@ -271,11 +271,10 @@ void setup() {
   pairing_mode = digitalRead(BUTTON);
 
   if (pairing_mode) {
+    WiFi.mode(WIFI_AP_STA);
     WiFi.softAP(NAME);
     led.set(PULSE_1000MS);
   } else {
-    WiFi.mode(WIFI_AP_STA);
-
     preferences.begin(CONFIG_NAMESPACE, true);
     String ssid = preferences.getString(KEY_SSID, "");
     String password = preferences.getString(KEY_PASSWORD, "");
@@ -390,7 +389,7 @@ void loop() {
       handle_schedule();
     }
   }
-  Serial.println(digitalRead(TRIGGER));
+
   motor_l.tick();
   motor_r.tick();
   trigger.tick();
