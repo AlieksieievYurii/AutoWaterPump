@@ -3,9 +3,16 @@
 This simple DIY auto water pump is based on the ESP32 and features two independently configurable pumps (_right_ and _left_).
 Additionally, it supports two sensors and operates on a 220V power supply.
 
+[![title-youtube](https://github.com/AlieksieievYurii/AutoWaterPump/assets/39415360/e7da7755-4717-43c9-881f-a3343f672b99)](https://www.youtube.com/watch?v=yHVSdm_lqno)
+
+
 The setup includes a button that, when pressed while the ECU is powering on, enables pairing mode.
 In pairing mode, the ECU functions as an Access Point (AP) with the hotspot name `water-pump`.
 Connect to this hotspot and navigate to `http://192.168.4.1:80/wifi` to enter the credentials for the primary Wi-Fi network.
+
+- In the folder `/parts` - you can find all the parst for 3D printing.
+- In the folder `/src` - you can find the source code for ESP32. However you also need to install the additional library
+[ArduinoJson](https://arduinojson.org/?utm_source=meta&utm_medium=library.properties).
 
 The ECU also has two LEDs (_S_ for status, _P_ for power) and a buzzer, which provide the following notifications:
 
