@@ -10,6 +10,7 @@ The setup includes a button that, when pressed while the ECU is powered on, enab
 In pairing mode, the ECU functions as an Access Point (AP) with the hotspot name `water-pump`.
 Connect to this hotspot and navigate to `http://192.168.4.1:80/wifi` to enter the credentials for the primary Wi-Fi network.
 
+- In the folder `/app` - you can find the streamlit application that controll the water pump.
 - In the folder `/parts` - you can find all the parts for 3D printing.
 - In the folder `/src` - you can find the source code for ESP32. However, you also need to install the additional library
 [ArduinoJson](https://arduinojson.org/?utm_source=meta&utm_medium=library.properties).
